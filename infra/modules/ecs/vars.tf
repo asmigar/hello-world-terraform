@@ -4,13 +4,13 @@ variable "env" {
 }
 
 variable "organisation" {
-  default = "asmigar"
+  default     = "asmigar"
   type        = string
   description = "name of the env i.e. dev/prod/uat/test"
 }
 
 variable "aws_region" {
-  default = "us-east-1"
+  default     = "us-east-1"
   type        = string
   description = "name of the env i.e. dev/prod/uat/test"
 }
@@ -26,7 +26,7 @@ variable "public_subnet_cidr_blocks" {
 }
 
 variable "release_version" {
-  type = string
+  type        = string
   description = "Image version which needs to be deployed"
-  default = ""
+  default     = ""
 }

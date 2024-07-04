@@ -1,9 +1,9 @@
 module "vpc" {
   source = "../vpc"
 
-  env = var.env
+  env                       = var.env
   public_subnet_cidr_blocks = var.public_subnet_cidr_blocks
-  vpc_cidr_block = var.vpc_cidr_block
+  vpc_cidr_block            = var.vpc_cidr_block
 }
 
 resource "aws_ecr_repository" "hello_world" {
@@ -114,8 +114,8 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_ecs_task_definition" "hello" {
-  count = var.release_version != "" ? 1 : 0
-  family = "hello-world"
+  count              = var.release_version != "" ? 1 : 0
+  family             = "hello-world"
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = jsonencode([
     {
@@ -137,7 +137,7 @@ resource "aws_ecs_task_definition" "hello" {
 }
 
 resource "aws_ecs_service" "hello" {
-  count = var.release_version != "" ? 1 : 0
+  count           = var.release_version != "" ? 1 : 0
   name            = "hello-world"
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.hello[0].arn
@@ -165,7 +165,7 @@ resource "aws_ecs_service" "hello" {
     // Internet Gateway is free but not the NAT Gateway/VPC Endpoint.
     // Restricting access to the instances can be done by SG itself.
     // No point in incurring charges for NAT (~ 3 INR/hr) /VPC Endpoint (~ 0.7 INR/hr)just for this assignment.
-    subnets          = module.vpc.public_subnet_ids
-    security_groups  = [aws_security_group.ecs_container.id]
+    subnets         = module.vpc.public_subnet_ids
+    security_groups = [aws_security_group.ecs_container.id]
   }
 }
