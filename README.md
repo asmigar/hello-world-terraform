@@ -58,7 +58,7 @@ docker push <docker_ecr_repo_url>:<version>
 ```
 5. Apply the `ecs` terraform project with the version provided in above step
 ```bash
-cd infra/accounts/dev/ecs; terragrunt apply -var="release_version=<release_version>"
+cd infra/accounts/dev/hello-world; terragrunt apply -var="release_version=<release_version>"
 ```
 
 ## TODO
