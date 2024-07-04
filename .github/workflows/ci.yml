@@ -110,7 +110,7 @@ jobs:
           tf_version: 1.8.5
           tg_version: 0.59.6
           tg_dir: infra/accounts/dev/hello-world
-          tg_command: plan -var="release_version=$RELEASE_VERSION"
+          tg_command: 'plan -var "release_version=$RELEASE_VERSION"'
 
   apply:
     needs: plan
