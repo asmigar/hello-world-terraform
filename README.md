@@ -60,3 +60,6 @@ docker push <docker_ecr_repo_url>:<version>
 ```bash
 cd infra/accounts/dev/ecs; terragrunt apply -var="release_version=<release_version>"
 ```
+
+## TODO
+- Create GithubActions for CI/CD 
