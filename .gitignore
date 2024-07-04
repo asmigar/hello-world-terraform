@@ -7,4 +7,6 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+.terragrunt-cache/
 node_modules/

@@ -1,9 +1,7 @@
-resource "random_id" "s3_suffix" {
-  byte_length = 4
-}
+data aws_caller_identity current {}
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "hello-world-terraform-state-${random_id.s3_suffix.hex}"
+  bucket = "asmigar-${var.env}-hello-world-terraform-state-${data.aws_caller_identity.current.account_id}"
 
   # Prevent accidental deletion of this S3 bucket
   lifecycle {

@@ -3,6 +3,18 @@ variable "env" {
   description = "name of the env i.e. dev/prod/uat/test"
 }
 
+variable "organisation" {
+  default = "asmigar"
+  type        = string
+  description = "name of the env i.e. dev/prod/uat/test"
+}
+
+variable "aws_region" {
+  default = "us-east-1"
+  type        = string
+  description = "name of the env i.e. dev/prod/uat/test"
+}
+
 variable "vpc_cidr_block" {
   type        = string
   description = "CIDR block for VPC"
