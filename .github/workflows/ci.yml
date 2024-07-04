@@ -52,7 +52,7 @@ jobs:
         with:
           tf_version: 1.8.5
           tg_version: 0.59.6
-          tg_dir: infra/dev/hello-world
+          tg_dir: infra/accounts/dev/hello-world
           tg_command: fmt -check -diff
 
   validate:
@@ -71,7 +71,7 @@ jobs:
         with:
           tf_version: 1.8.5
           tg_version: 0.59.6
-          tg_dir: infra/dev/hello-world
+          tg_dir: infra/accounts/dev/hello-world
           tg_command: validate
 
   plan:
@@ -94,7 +94,7 @@ jobs:
         with:
           tf_version: 1.8.5
           tg_version: 0.59.6
-          tg_dir: infra/dev/hello-world
+          tg_dir: infra/accounts/dev/hello-world
           tg_command: plan -var="release_version=$RELEASE_VERSION"
 
   apply:
@@ -114,5 +114,5 @@ jobs:
         with:
           tf_version: 1.8.5
           tg_version: 0.59.6
-          tg_dir: infra/dev/hello-world
+          tg_dir: infra/accounts/dev/hello-world
           tg_command: apply -var="release_version=$RELEASE_VERSION" -auto-approve
