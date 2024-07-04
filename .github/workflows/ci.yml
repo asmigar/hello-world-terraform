@@ -1,0 +1,118 @@
+---
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish-docker-images:
+    name: publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GithubAction
+          role-session-name: GitHubActions
+          aws-region: us-east-1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: hello-world
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:${IMAGE_TAG::7} .
+          docker push $REGISTRY/$REPOSITORY:${IMAGE_TAG::7}
+        working-directory: ./src
+
+  format:
+    name: Terraform format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
+      - name: Format
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: 1.8.5
+          tg_version: 0.59.6
+          tg_dir: infra/dev/hello-world
+          tg_command: fmt -check -diff
+
+  validate:
+    name: Terraform validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
+      - name: Validate
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: 1.8.5
+          tg_version: 0.59.6
+          tg_dir: infra/dev/hello-world
+          tg_command: validate
+
+  plan:
+    needs:
+      - format
+      - validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
+      - name: Plan
+        env:
+          RELEASE_VERSION: ${{ github.sha }}
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: 1.8.5
+          tg_version: 0.59.6
+          tg_dir: infra/dev/hello-world
+          tg_command: plan -var="release_version=$RELEASE_VERSION"
+
+  apply:
+    needs: plan
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
+      - name: Apply
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: 1.8.5
+          tg_version: 0.59.6
+          tg_dir: infra/dev/hello-world
+          tg_command: apply -var="release_version=$RELEASE_VERSION" -auto-approve
