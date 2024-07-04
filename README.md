@@ -36,7 +36,7 @@ cd infra/accounts/dev/remote_state; terraform init; terraform apply
 ```
 2. Apply the `ecs` terraform project.
 ```bash
-cd infra/accounts/dev/ecs; terraform init; terraform apply
+cd infra/accounts/dev/hello-world; terragrunt init; terragrunt apply
 ```
 This will output
 * URL to access the web server.
@@ -58,8 +58,5 @@ docker push <docker_ecr_repo_url>:<version>
 ```
 5. Apply the `ecs` terraform project with the version provided in above step
 ```bash
-cd infra/accounts/dev/ecs; terraform apply -var="release_version=<release_version>"
+cd infra/accounts/dev/ecs; terragrunt apply -var="release_version=<release_version>"
 ```
-
-## TODO
-- Use [terragrunt](https://terragrunt.gruntwork.io/) for making terraform code DRY in case new env is added. 
