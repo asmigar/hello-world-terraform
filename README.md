@@ -62,4 +62,4 @@ cd infra/accounts/dev/hello-world; terragrunt apply -var="release_version=<relea
 ```
 
 ## TODO
-- Create GithubActions for CI/CD 
+- Create Github Action workflow for Prod env 
