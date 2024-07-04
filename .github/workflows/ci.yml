@@ -11,8 +11,8 @@ permissions:
   contents: read
 
 jobs:
-  publish-docker-images:
-    name: publish
+  publish-docker-image:
+    name: Publish Docker image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
