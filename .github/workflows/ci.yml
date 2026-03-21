@@ -62,7 +62,7 @@ jobs:
       - name: Format
         uses: gruntwork-io/terragrunt-action@v2
         with:
-          tf_version: 1.8.5
+          tf_version: 1.13.5
           tg_version: 0.59.6
           tg_dir: infra/accounts/dev/hello-world
           tg_command: fmt -check -diff
@@ -81,7 +81,7 @@ jobs:
       - name: Validate
         uses: gruntwork-io/terragrunt-action@v2
         with:
-          tf_version: 1.8.5
+          tf_version: 1.13.5
           tg_version: 0.59.6
           tg_dir: infra/accounts/dev/hello-world
           tg_command: validate
@@ -107,7 +107,7 @@ jobs:
           RELEASE_VERSION: ${{ needs.publish-docker-image.outputs.image_tag }}
         uses: gruntwork-io/terragrunt-action@v2
         with:
-          tf_version: 1.8.5
+          tf_version: 1.13.5
           tg_version: 0.59.6
           tg_dir: infra/accounts/dev/hello-world
           tg_command: plan -var release_version=${{ env.RELEASE_VERSION }}
@@ -129,7 +129,7 @@ jobs:
           RELEASE_VERSION: ${{ needs.plan.outputs.image_tag }}
         uses: gruntwork-io/terragrunt-action@v2
         with:
-          tf_version: 1.8.5
+          tf_version: 1.13.5
           tg_version: 0.59.6
           tg_dir: infra/accounts/dev/hello-world
           tg_command: apply -var release_version=${{ env.RELEASE_VERSION }} -auto-approve
