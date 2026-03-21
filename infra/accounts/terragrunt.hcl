@@ -10,7 +10,7 @@ generate "backend" {
   contents = <<EOF
 terraform {
   backend "s3" {
-    bucket         = "${local.state_bucket_prefix}-terraform-state-${get_aws_account_id()}"
+    bucket         = "${local.state_bucket_prefix}-terraform-state"
     key            = "terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
@@ -49,7 +49,7 @@ terraform {
       source  = "hashicorp/aws"
     }
   }
-  required_version = "= 1.8.5"
+  required_version = "= 1.13.5"
 }
 EOF
 }

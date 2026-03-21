@@ -1,7 +1,7 @@
 data aws_caller_identity current {}
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "asmigar-${var.env}-hello-world-terraform-state-${data.aws_caller_identity.current.account_id}"
+  bucket = "asmigar-${var.env}-hello-world-terraform-state"
 
   # Prevent accidental deletion of this S3 bucket
   lifecycle {
