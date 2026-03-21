@@ -1,3 +1,5 @@
+iam_role = "arn:aws:iam::${get_aws_account_id()}:role/applier"
+
 terraform {
   source = "../../../modules//ecs"
 }
