@@ -14,7 +14,7 @@ terraform {
     key            = "terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
-    dynamodb_table = "hello-world-state-locks"
+    use_lockfile = true
   }
 }
 EOF
