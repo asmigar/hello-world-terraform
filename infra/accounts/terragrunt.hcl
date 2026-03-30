@@ -10,7 +10,7 @@ generate "backend" {
   contents = <<EOF
 terraform {
   backend "s3" {
-    bucket         = "${local.state_bucket_prefix}-terraform-state"
+    bucket         = "${local.state_bucket_prefix}-tfstate-${get_aws_account_id()}-us-east-1-an"
     key            = "terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
