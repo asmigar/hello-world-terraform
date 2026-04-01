@@ -30,13 +30,9 @@ $ aws iam list-users --profile asmigar
 7. Install Terragrunt's latest version from [here](https://terragrunt.gruntwork.io/docs/getting-started/install/)
 ## Setup
 
-1. Apply the `remote_state` terraform project. This will create s3 bucket and lock table for keeping remote state for other tf projects.
+1. Apply the `ecs` terraform project.
 ```bash
-cd infra/accounts/dev/remote_state; terraform init; terraform apply
-```
-2. Apply the `ecs` terraform project.
-```bash
-cd infra/accounts/dev/hello-world; terragrunt init; terragrunt apply
+cd infra/accounts/dev/hello-world; terragrunt init --backend-bootstrap; terragrunt apply
 ```
 This will output
 * URL to access the web server.
@@ -48,15 +44,15 @@ This will output
 ```bash
 cd src; docker build -t <docker_ecr_repo_url>:<version> .
 ```
-3. Docker login into the ECR repo
+2. Docker login into the ECR repo
 ```bash
 aws ecr get-login-password --region us-east-1 --profile asmigar | docker login --username AWS --password-stdin <ecr_repo_url>
 ```
-4. Publish docker image 
+3. Publish docker image 
 ```bash
 docker push <docker_ecr_repo_url>:<version>
 ```
-5. Apply the `ecs` terraform project with the version provided in above step
+4. Apply the `ecs` terraform project with the version provided in above step
 ```bash
 cd infra/accounts/dev/hello-world; terragrunt apply -var="release_version=<release_version>"
 ```

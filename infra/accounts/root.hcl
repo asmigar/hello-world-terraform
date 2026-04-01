@@ -4,20 +4,23 @@ locals {
   state_bucket_prefix = "${local.org}-${local.current_dir}"
 }
 
-generate "backend" {
-  path      = "remote_backend.tf"
-  if_exists = "overwrite_terragrunt"
-  contents = <<EOF
-terraform {
-  backend "s3" {
-    bucket         = "${local.state_bucket_prefix}-tfstate-${get_aws_account_id()}-us-east-1-an"
-    key            = "terraform.tfstate"
+inputs = {
+  organisation = local.org
+}
+
+remote_state {
+  generate = {
+    path = "remote_backend.tf"
+    if_exists = "overwrite_terragrunt"
+  }
+  backend = "s3"
+  config = {
+    bucket = "${local.state_bucket_prefix}-${get_aws_account_id()}-us-east-1"
+    key = "terraform.tfstate"
     region         = "us-east-1"
-    encrypt        = true
+    encrypt = true
     use_lockfile = true
   }
-}
-EOF
 }
 
 generate "provider" {
