@@ -146,10 +146,9 @@ resource "aws_ecs_task_definition" "hello" {
     cpu_architecture = "ARM64"
   }
 
-  requires_compatibilities = ["FARGATE"]
   network_mode = "awsvpc"
   cpu          = "256"
-  memory       = "512"
+  memory       = "100"
 }
 
 resource "aws_ecs_service" "hello" {
