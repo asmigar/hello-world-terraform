@@ -30,29 +30,16 @@ $ aws iam list-users --profile asmigar
 7. Install Terragrunt's latest version from [here](https://terragrunt.gruntwork.io/docs/getting-started/install/)
 ## Setup
 
-1. Apply the `ecs` terraform project.
+1. Apply the terraform project.
 ```bash
-cd infra/accounts/dev/hello-world; terragrunt init --backend-bootstrap; terragrunt apply
+cd infra/accounts/dev/hello-world; terragrunt init --backend-bootstrap; terragrunt apply -var="release_version=<release_version>"
 ```
 This will output
 * URL to access the web server.
-* ECR repo url where docker images should be pushed.
 
 ## Development
 1. Make desired code changes to `src` directory.
-2. Run docker build
-```bash
-cd src; docker build -t <docker_ecr_repo_url>:<version> .
-```
-2. Docker login into the ECR repo
-```bash
-aws ecr get-login-password --region us-east-1 --profile asmigar | docker login --username AWS --password-stdin <ecr_repo_url>
-```
-3. Publish docker image 
-```bash
-docker push <docker_ecr_repo_url>:<version>
-```
-4. Apply the `ecs` terraform project with the version provided in above step
+2. Run terragrunt with updated release version
 ```bash
 cd infra/accounts/dev/hello-world; terragrunt apply -var="release_version=<release_version>"
 ```
