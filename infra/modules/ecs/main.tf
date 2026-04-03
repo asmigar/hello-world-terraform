@@ -6,6 +6,16 @@ module "vpc" {
   vpc_cidr_block            = var.vpc_cidr_block
 }
 
+data "aws_ecr_authorization_token" "token" {}
+
+module "docker_image" {
+  source = "../docker_image"
+
+  repository = aws_ecr_repository.hello_world.repository_url
+  auth = data.aws_ecr_authorization_token.token
+  release_version = var.release_version
+}
+
 resource "aws_ecr_repository" "hello_world" {
   name                 = "hello-world"
   image_tag_mutability = "MUTABLE"
@@ -131,6 +141,12 @@ resource "aws_ecs_task_definition" "hello" {
     }
   ])
 
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture = "ARM64"
+  }
+
+  requires_compatibilities = ["FARGATE"]
   network_mode = "awsvpc"
   cpu          = "256"
   memory       = "512"
@@ -142,6 +158,7 @@ resource "aws_ecs_service" "hello" {
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.hello[0].arn
   desired_count   = 2
+  force_new_deployment = true
 
   load_balancer {
     target_group_arn = aws_lb_target_group.hello_lb_tg.arn
@@ -153,11 +170,6 @@ resource "aws_ecs_service" "hello" {
     capacity_provider = aws_ecs_capacity_provider.main.name
     base              = 1
     weight            = 100
-  }
-
-  ordered_placement_strategy {
-    type  = "spread"
-    field = "attribute:ecs.availability-zone"
   }
 
   network_configuration {

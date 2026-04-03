@@ -39,13 +39,13 @@ resource "aws_security_group" "ecs_node_sg" {
 }
 
 data "aws_ssm_parameter" "ecs_node_ami" {
-  name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
+  name = "/aws/service/ecs/optimized-ami/amazon-linux-2023/arm64/recommended/image_id"
 }
 
 resource "aws_launch_template" "ecs_ec2" {
   name_prefix            = "demo-ecs-ec2-"
   image_id               = data.aws_ssm_parameter.ecs_node_ami.value
-  instance_type          = "t2.micro"
+  instance_type          = "t4g.nano"
   vpc_security_group_ids = [aws_security_group.ecs_node_sg.id]
 
   iam_instance_profile { arn = aws_iam_instance_profile.ecs_node.arn }
@@ -61,8 +61,8 @@ resource "aws_launch_template" "ecs_ec2" {
 resource "aws_autoscaling_group" "ecs" {
   name_prefix               = "demo-ecs-asg-"
   vpc_zone_identifier       = module.vpc.public_subnet_ids
-  min_size                  = 2
-  max_size                  = 8
+  min_size                  = 0
+  max_size                  = 4
   health_check_grace_period = 0
   health_check_type         = "EC2"
   protect_from_scale_in     = false
