@@ -10,6 +10,12 @@ data "aws_iam_policy_document" "ecs_node_doc" {
   }
 }
 
+resource "aws_ec2_instance_connect_endpoint" "this" {
+  ip_address_type    = "ipv4"
+  subnet_id          = module.vpc.public_subnet_ids[0]
+  security_group_ids = [aws_security_group.ec2-instance-connect-endpoint.id]
+}
+
 resource "aws_iam_role" "ecs_node_role" {
   name_prefix        = "demo-ecs-node-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_node_doc.json
@@ -26,9 +32,29 @@ resource "aws_iam_instance_profile" "ecs_node" {
   role        = aws_iam_role.ecs_node_role.name
 }
 
+resource "aws_security_group" "ec2-instance-connect-endpoint" {
+  name_prefix = "ec2-instance-connect-endpoint-sg"
+  vpc_id      = module.vpc.vpc_id
+
+  egress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
 resource "aws_security_group" "ecs_node_sg" {
   name_prefix = "demo-ecs-node-sg-"
   vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    security_groups = [aws_security_group.ec2-instance-connect-endpoint.id]
+  }
 
   egress {
     from_port   = 0
@@ -53,6 +79,7 @@ resource "aws_launch_template" "ecs_ec2" {
 
   user_data = base64encode(<<-EOF
       #!/bin/bash
+      sudo yum install ec2-instance-connect -y
       echo ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config;
     EOF
   )
