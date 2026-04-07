@@ -27,4 +27,10 @@ resource "docker_registry_image" "hello_world" {
     password = var.auth.password
     username = var.auth.user_name
   }
+
+  lifecycle {
+    ignore_changes = [
+      auth_config["password"]
+    ]
+  }
 }

@@ -11,9 +11,9 @@ data "aws_iam_policy_document" "ecs_node_doc" {
 }
 
 resource "aws_ec2_instance_connect_endpoint" "this" {
-  ip_address_type    = "ipv4"
   subnet_id          = module.vpc.public_subnet_ids[0]
   security_group_ids = [aws_security_group.ec2-instance-connect-endpoint.id]
+  preserve_client_ip = false
 }
 
 resource "aws_iam_role" "ecs_node_role" {
@@ -62,6 +62,14 @@ resource "aws_security_group" "ecs_node_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  egress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
 }
 
 data "aws_ssm_parameter" "ecs_node_ami" {

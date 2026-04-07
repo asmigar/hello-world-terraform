@@ -85,6 +85,7 @@ resource "aws_lb" "hello" {
   name                       = "hello-lb-${var.env}"
   internal                   = false
   load_balancer_type         = "application"
+  ip_address_type = "dualstack-without-public-ipv4"
   security_groups            = [aws_security_group.allow_http_lb.id]
   subnets                    = module.vpc.public_subnet_ids
   enable_deletion_protection = false
