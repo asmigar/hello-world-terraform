@@ -44,5 +44,8 @@ This will output
 cd infra/accounts/dev/hello-world; terragrunt apply -var="release_version=<release_version>"
 ```
 
+## Bottleneck - IpV6 only doesn't work
+https://repost.aws/fr/questions/QUolPC7neZRu-bP4_WbPpnRg/ipv6-only-ecs-fails-to-start-ecs-registration-api-unreachable
+
 ## TODO
 - Create Github Action workflow for Prod env 

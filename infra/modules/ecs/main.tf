@@ -107,6 +107,7 @@ resource "aws_lb_target_group" "hello_lb_tg" {
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
+  ip_address_type = "ipv6"
   vpc_id      = module.vpc.vpc_id
 
   health_check {
