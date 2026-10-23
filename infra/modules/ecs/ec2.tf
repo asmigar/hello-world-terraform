@@ -93,6 +93,7 @@ resource "aws_launch_template" "ecs_ec2" {
       #!/bin/bash
       sudo yum install ec2-instance-connect -y
       echo ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config;
+      echo ECS_INSTANCE_IP_COMPATIBILITY=ipv6 >> /etc/ecs/ecs.config;
     EOF
   )
 }

@@ -15,7 +15,7 @@ remote_state {
   }
   backend = "s3"
   config = {
-    bucket = "${local.state_bucket_prefix}-${get_aws_account_id()}-us-east-1"
+    bucket = "${local.state_bucket_prefix}-${get_aws_account_id()}-us-east-1-an"
     key = "terraform.tfstate"
     region         = "us-east-1"
     encrypt = true

@@ -116,6 +116,11 @@ resource "aws_lb_target_group" "hello_lb_tg" {
   }
 }
 
+resource "aws_ecs_account_setting_default" "ipv6" {
+  name  = "dualStackIPv6"
+  value = "enabled"
+}
+
 resource "aws_ecs_cluster" "cluster" {
   name = "cluster-${var.env}"
 
