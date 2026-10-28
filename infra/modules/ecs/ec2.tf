@@ -61,15 +61,8 @@ resource "aws_security_group" "ecs_node_sg" {
     to_port     = 65535
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
     ipv6_cidr_blocks = ["::/0"]
   }
-
 }
 
 data "aws_ssm_parameter" "ecs_node_ami" {
@@ -91,7 +84,6 @@ resource "aws_launch_template" "ecs_ec2" {
 
   user_data = base64encode(<<-EOF
       #!/bin/bash
-      sudo yum install ec2-instance-connect -y
       echo ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config;
       echo ECS_INSTANCE_IP_COMPATIBILITY=ipv6 >> /etc/ecs/ecs.config;
     EOF

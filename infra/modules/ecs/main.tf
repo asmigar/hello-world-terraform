@@ -2,7 +2,6 @@ module "vpc" {
   source = "../vpc"
 
   env                       = var.env
-  public_subnet_cidr_blocks = var.public_subnet_cidr_blocks
   vpc_cidr_block            = var.vpc_cidr_block
 }
 
@@ -148,6 +147,7 @@ resource "aws_ecs_task_definition" "hello" {
     }
   ])
 
+  requires_compatibilities = ["EC2"]
   runtime_platform {
     operating_system_family = "LINUX"
     cpu_architecture = "ARM64"
