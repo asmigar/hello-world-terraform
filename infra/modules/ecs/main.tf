@@ -136,7 +136,6 @@ resource "aws_ecs_task_definition" "hello" {
   container_definitions = jsonencode([
     {
       name      = "hello-world"
-      # image     = "${aws_ecr_repository.hello_world.repository_url}:${var.release_version}"
       image     = "${aws_ecr_repository.hello_world.registry_id}.dkr-ecr.${var.aws_region}.on.aws/${aws_ecr_repository.hello_world.name}:${var.release_version}"
       essential = true
 
