@@ -179,7 +179,7 @@ resource "aws_ecs_service" "hello" {
   }
 
   network_configuration {
-    subnets         = module.vpc.public_subnet_ids
+    subnets         = module.vpc.private_subnet_ids
     security_groups = [aws_security_group.ecs_container.id]
   }
 }
