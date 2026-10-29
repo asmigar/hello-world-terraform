@@ -41,6 +41,7 @@ resource "aws_security_group" "ec2-instance-connect-endpoint" {
     to_port     = 65535
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }
 
@@ -92,7 +93,7 @@ resource "aws_launch_template" "ecs_ec2" {
 
 resource "aws_autoscaling_group" "ecs" {
   name_prefix               = "demo-ecs-asg-"
-  vpc_zone_identifier       = module.vpc.public_subnet_ids
+  vpc_zone_identifier       = module.vpc.private_subnet_ids
   min_size                  = 0
   max_size                  = 4
   health_check_grace_period = 0
