@@ -11,9 +11,9 @@ variable "repository" {
 }
 
 variable "auth" {
-  type        = object({
+  type = object({
     user_name = string
-    password = string
+    password  = string
   })
   description = "auth for ecr"
 }

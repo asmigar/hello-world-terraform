@@ -38,10 +38,10 @@ resource "aws_security_group" "ec2-instance-connect-endpoint" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "ec2-instance-connect-endpoint" {
-  ip_protocol       = "tcp"
-  security_group_id = aws_security_group.ec2-instance-connect-endpoint.id
-  from_port         = 22
-  to_port = 22
+  ip_protocol                  = "tcp"
+  security_group_id            = aws_security_group.ec2-instance-connect-endpoint.id
+  from_port                    = 22
+  to_port                      = 22
   referenced_security_group_id = aws_security_group.ecs_node_sg.id
 }
 
@@ -50,17 +50,17 @@ resource "aws_security_group" "ecs_node_sg" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
     security_groups = [aws_security_group.ec2-instance-connect-endpoint.id]
   }
 
   egress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port        = 0
+    to_port          = 65535
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
 }
@@ -70,16 +70,16 @@ data "aws_ssm_parameter" "ecs_node_ami" {
 }
 
 resource "aws_launch_template" "ecs_ec2" {
-  name_prefix            = "demo-ecs-ec2-"
-  image_id               = data.aws_ssm_parameter.ecs_node_ami.value
-  instance_type          = "t4g.nano"
+  name_prefix   = "demo-ecs-ec2-"
+  image_id      = data.aws_ssm_parameter.ecs_node_ami.value
+  instance_type = "t4g.nano"
 
   iam_instance_profile { arn = aws_iam_instance_profile.ecs_node.arn }
   monitoring { enabled = true }
   network_interfaces {
-    primary_ipv6 = true
+    primary_ipv6       = true
     ipv6_address_count = 1
-    security_groups = [aws_security_group.ecs_node_sg.id]
+    security_groups    = [aws_security_group.ecs_node_sg.id]
   }
 
   user_data = base64encode(<<-EOF

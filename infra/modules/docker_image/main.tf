@@ -15,15 +15,15 @@ provider "docker" {
 
 
 resource "docker_registry_image" "hello_world" {
-  count              = var.release_version != "" ? 1 : 0
-  name = "${var.repository}:${var.release_version}"
+  count = var.release_version != "" ? 1 : 0
+  name  = "${var.repository}:${var.release_version}"
   build {
-    context = "${path.module}/src"
+    context  = "${path.module}/src"
     platform = "linux/arm64"
   }
 
   auth_config {
-    address  = split("/",var.repository)[0]
+    address  = split("/", var.repository)[0]
     password = var.auth.password
     username = var.auth.user_name
   }

@@ -4,6 +4,6 @@ variable "env" {
 }
 
 variable "vpc_cidr_block" {
-  type = string
+  type        = string
   description = "cidr block to create vpc with"
 }

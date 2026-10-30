@@ -1,8 +1,8 @@
 module "vpc" {
   source = "../vpc"
 
-  env                       = var.env
-  vpc_cidr_block            = var.vpc_cidr_block
+  env            = var.env
+  vpc_cidr_block = var.vpc_cidr_block
 }
 
 data "aws_ecr_authorization_token" "token" {}
@@ -10,8 +10,8 @@ data "aws_ecr_authorization_token" "token" {}
 module "docker_image" {
   source = "../docker_image"
 
-  repository = aws_ecr_repository.hello_world.repository_url
-  auth = data.aws_ecr_authorization_token.token
+  repository      = aws_ecr_repository.hello_world.repository_url
+  auth            = data.aws_ecr_authorization_token.token
   release_version = var.release_version
 }
 
@@ -84,7 +84,7 @@ resource "aws_lb" "hello" {
   name                       = "hello-lb-${var.env}"
   internal                   = false
   load_balancer_type         = "application"
-  ip_address_type = "dualstack-without-public-ipv4"
+  ip_address_type            = "dualstack-without-public-ipv4"
   security_groups            = [aws_security_group.allow_http_lb.id]
   subnets                    = module.vpc.public_subnet_ids
   enable_deletion_protection = false
@@ -102,12 +102,12 @@ resource "aws_lb_listener" "hello" {
 }
 
 resource "aws_lb_target_group" "hello_lb_tg" {
-  name        = "hello-lb-tg-${var.env}"
-  port        = 80
-  protocol    = "HTTP"
-  target_type = "ip"
+  name            = "hello-lb-tg-${var.env}"
+  port            = 80
+  protocol        = "HTTP"
+  target_type     = "ip"
   ip_address_type = "ipv6"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id          = module.vpc.vpc_id
 
   health_check {
     interval = 5
@@ -150,7 +150,7 @@ resource "aws_ecs_task_definition" "hello" {
   requires_compatibilities = ["EC2"]
   runtime_platform {
     operating_system_family = "LINUX"
-    cpu_architecture = "ARM64"
+    cpu_architecture        = "ARM64"
   }
 
   network_mode = "awsvpc"
@@ -159,11 +159,11 @@ resource "aws_ecs_task_definition" "hello" {
 }
 
 resource "aws_ecs_service" "hello" {
-  count           = var.release_version != "" ? 1 : 0
-  name            = "hello-world"
-  cluster         = aws_ecs_cluster.cluster.id
-  task_definition = aws_ecs_task_definition.hello[0].arn
-  desired_count   = 2
+  count                = var.release_version != "" ? 1 : 0
+  name                 = "hello-world"
+  cluster              = aws_ecs_cluster.cluster.id
+  task_definition      = aws_ecs_task_definition.hello[0].arn
+  desired_count        = 2
   force_new_deployment = true
 
   load_balancer {
