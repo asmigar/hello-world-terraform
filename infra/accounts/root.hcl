@@ -1,6 +1,6 @@
 locals {
-  current_dir = replace(path_relative_to_include(), "/", "-" )
-  org = "asmigar"
+  current_dir         = replace(path_relative_to_include(), "/", "-")
+  org                 = "asmigar"
   state_bucket_prefix = "${local.org}-${local.current_dir}"
 }
 
@@ -10,15 +10,15 @@ inputs = {
 
 remote_state {
   generate = {
-    path = "remote_backend.tf"
+    path      = "remote_backend.tf"
     if_exists = "overwrite_terragrunt"
   }
   backend = "s3"
   config = {
-    bucket = "${local.state_bucket_prefix}-${get_aws_account_id()}-us-east-1-an"
-    key = "terraform.tfstate"
-    region         = "us-east-1"
-    encrypt = true
+    bucket       = "${local.state_bucket_prefix}-${get_aws_account_id()}-us-east-1-an"
+    key          = "terraform.tfstate"
+    region       = "us-east-1"
+    encrypt      = true
     use_lockfile = true
   }
 }
@@ -26,7 +26,7 @@ remote_state {
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
-  contents = <<EOF
+  contents  = <<EOF
 provider "aws" {
   region = var.aws_region
   default_tags {
@@ -44,7 +44,7 @@ EOF
 generate "versions" {
   path      = "versions.tf"
   if_exists = "overwrite_terragrunt"
-  contents = <<EOF
+  contents  = <<EOF
 terraform {
   required_providers {
     aws = {
