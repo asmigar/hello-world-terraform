@@ -35,16 +35,15 @@ resource "aws_iam_instance_profile" "ecs_node" {
 resource "aws_security_group" "ec2-instance-connect-endpoint" {
   name_prefix = "ec2-instance-connect-endpoint-sg"
   vpc_id      = module.vpc.vpc_id
-
-  egress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
 }
 
+resource "aws_vpc_security_group_egress_rule" "ec2-instance-connect-endpoint" {
+  ip_protocol       = "tcp"
+  security_group_id = aws_security_group.ec2-instance-connect-endpoint.id
+  from_port         = 22
+  to_port = 22
+  referenced_security_group_id = aws_security_group.ecs_node_sg.id
+}
 
 resource "aws_security_group" "ecs_node_sg" {
   name_prefix = "demo-ecs-node-sg-"
