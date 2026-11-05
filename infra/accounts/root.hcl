@@ -41,6 +41,19 @@ provider "aws" {
 EOF
 }
 
+generate "opentofu_versions" {
+  path = "versions.tofu"
+  if_exists = "overwrite_terragrunt"
+  contents = <<EOF
+language {
+  compatible_with {
+    opentofu = "= 1.13.8"
+  }
+}
+EOF
+}
+
+
 generate "versions" {
   path      = "versions.tf"
   if_exists = "overwrite_terragrunt"
