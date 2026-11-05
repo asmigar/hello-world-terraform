@@ -44,8 +44,6 @@ This will output
 cd infra/accounts/dev/hello-world; terragrunt apply -var="release_version=<release_version>"
 ```
 
-## Bottleneck - IpV6 only doesn't work
-https://repost.aws/fr/questions/QUolPC7neZRu-bP4_WbPpnRg/ipv6-only-ecs-fails-to-start-ecs-registration-api-unreachable
-
 ## TODO
-- Switch to Opentofu as it provides some extra features over terraform. https://www.gruntwork.io/blog/make-the-switch-to-opentofu
+- [ ] Use opentf client side [state encryption](https://www.gruntwork.io/blog/make-the-switch-to-opentofu)
+- [ ] Setup CI/CD using [terragrunt-action@v3](https://github.com/gruntwork-io/terragrunt-action)
