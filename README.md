@@ -48,4 +48,4 @@ cd infra/accounts/dev/hello-world; terragrunt apply -var="release_version=<relea
 https://repost.aws/fr/questions/QUolPC7neZRu-bP4_WbPpnRg/ipv6-only-ecs-fails-to-start-ecs-registration-api-unreachable
 
 ## TODO
-- Create Github Action workflow for Prod env 
+- Switch to Opentofu as it provides some extra features over terraform. https://www.gruntwork.io/blog/make-the-switch-to-opentofu
