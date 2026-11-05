@@ -63,7 +63,7 @@ resource "aws_security_group" "ecs_container" {
     description     = "HTTP from ALB"
     from_port       = 3000
     to_port         = 3000
-    protocol = "tcp"
+    protocol        = "tcp"
     security_groups = [aws_security_group.allow_http_lb.id]
   }
 
