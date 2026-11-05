@@ -26,7 +26,7 @@ $ aws iam list-users --profile asmigar
     ]
 }
 ```
-6. Install Terraform's latest version from [here](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+6. Install Opentofu's v1.13.8 version from [here](https://opentofu.org/docs/intro/install/)
 7. Install Terragrunt's latest version from [here](https://terragrunt.gruntwork.io/docs/getting-started/install/)
 ## Setup
 
