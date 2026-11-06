@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:    
-  format:
+  format-hcl:
     name: hcl format
     runs-on: ubuntu-latest
     steps:
@@ -27,6 +27,23 @@ jobs:
         with:
           tg_dir: infra/accounts
           tg_command: hcl fmt --check --diff
+
+  format:
+    name: Opentofu format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
+      - name: Format
+        uses: gruntwork-io/terragrunt-action@v3
+        with:
+          tg_dir: infra/modules
+          tg_command: run --no-auto-init --config=no-op.hcl -- fmt -check -diff -recursive
 
   validate-hcl:
     name: HCL validate
