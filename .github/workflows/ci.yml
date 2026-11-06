@@ -60,12 +60,10 @@ jobs:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
       - name: Format
-        uses: gruntwork-io/terragrunt-action@v2
+        uses: gruntwork-io/terragrunt-action@v3
         with:
-          tf_version: 1.13.5
-          tg_version: 0.59.6
-          tg_dir: infra/accounts/dev/hello-world
-          tg_command: fmt -check -diff
+          tg_dir: infra/accounts
+          tg_command: hcl fmt --check --diff
 
   validate:
     name: Terraform validate
@@ -105,10 +103,8 @@ jobs:
       - name: Plan
         env:
           RELEASE_VERSION: ${{ needs.publish-docker-image.outputs.image_tag }}
-        uses: gruntwork-io/terragrunt-action@v2
+        uses: gruntwork-io/terragrunt-action@v3
         with:
-          tf_version: 1.13.5
-          tg_version: 0.59.6
           tg_dir: infra/accounts/dev/hello-world
           tg_command: plan -var release_version=${{ env.RELEASE_VERSION }}
 
@@ -127,9 +123,7 @@ jobs:
       - name: Apply
         env:
           RELEASE_VERSION: ${{ needs.plan.outputs.image_tag }}
-        uses: gruntwork-io/terragrunt-action@v2
+        uses: gruntwork-io/terragrunt-action@v3
         with:
-          tf_version: 1.13.5
-          tg_version: 0.59.6
           tg_dir: infra/accounts/dev/hello-world
           tg_command: apply -var release_version=${{ env.RELEASE_VERSION }} -auto-approve
