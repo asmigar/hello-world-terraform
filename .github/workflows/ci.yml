@@ -12,7 +12,7 @@ permissions:
 
 jobs:    
   format:
-    name: Terragrunt format
+    name: hcl format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,8 +28,25 @@ jobs:
           tg_dir: infra/accounts
           tg_command: hcl fmt --check --diff
 
+  validate-hcl:
+    name: HCL validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
+      - name: Format
+        uses: gruntwork-io/terragrunt-action@v3
+        with:
+          tg_dir: infra/accounts
+          tg_command: hcl validate --inputs
+
   validate:
-    name: Terraform validate
+    name: Opentofu validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,8 +59,6 @@ jobs:
       - name: Validate
         uses: gruntwork-io/terragrunt-action@v2
         with:
-          tf_version: 1.13.5
-          tg_version: 0.59.6
           tg_dir: infra/accounts/dev/hello-world
           tg_command: validate
 
