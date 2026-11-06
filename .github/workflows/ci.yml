@@ -12,7 +12,7 @@ permissions:
 
 jobs:    
   format-hcl:
-    name: hcl format
+    name: HCL format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -84,6 +84,7 @@ jobs:
       - format
       - validate
       - validate-hcl
+      - format-hcl
     runs-on: ubuntu-latest
     outputs:
       release_version: ${{ steps.release_version.outputs.release_version }}

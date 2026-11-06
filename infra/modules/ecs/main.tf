@@ -28,7 +28,7 @@ resource "aws_ecr_repository" "hello_world" {
 
 resource "aws_security_group" "allow_http_lb" {
   name        = "allow_http_lb"
-  description   = "Allow http inbound traffic"
+  description = "Allow http inbound traffic"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
