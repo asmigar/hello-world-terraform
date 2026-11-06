@@ -42,9 +42,9 @@ EOF
 }
 
 generate "opentofu_versions" {
-  path = "versions.tofu"
+  path      = "versions.tofu"
   if_exists = "overwrite_terragrunt"
-  contents = <<EOF
+  contents  = <<EOF
 language {
   compatible_with {
     opentofu = "= 1.13.8"

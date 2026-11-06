@@ -49,7 +49,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   format:
-    name: Terraform format
+    name: Terragrunt format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
