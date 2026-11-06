@@ -13,11 +13,11 @@ permissions:
 jobs:    
   format-hcl:
     name: HCL format
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
@@ -30,11 +30,11 @@ jobs:
 
   format:
     name: Opentofu format
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
@@ -47,11 +47,11 @@ jobs:
 
   validate-hcl:
     name: HCL validate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
@@ -64,11 +64,11 @@ jobs:
 
   validate:
     name: Opentofu validate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
@@ -85,13 +85,13 @@ jobs:
       - validate
       - validate-hcl
       - format-hcl
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       release_version: ${{ steps.release_version.outputs.release_version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
@@ -111,12 +111,12 @@ jobs:
 
   apply:
     needs: plan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     environment: dev
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
