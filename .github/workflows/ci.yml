@@ -39,7 +39,7 @@ jobs:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
-      - name: Format
+      - name: Validate
         uses: gruntwork-io/terragrunt-action@v3
         with:
           tg_dir: infra/accounts
@@ -66,6 +66,7 @@ jobs:
     needs:
       - format
       - validate
+      - validate-hcl
     runs-on: ubuntu-latest
     outputs:
       release_version: ${{ steps.release_version.outputs.release_version }}
