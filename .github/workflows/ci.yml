@@ -51,7 +51,6 @@ jobs:
     needs:
       - format
       - validate
-      - publish-docker-image
     runs-on: ubuntu-latest
     outputs:
       release_version: ${{ steps.release_version.outputs.release_version }}
