@@ -10,24 +10,7 @@ permissions:
   id-token: write
   contents: read
 
-jobs:
-  publish-docker-image:
-    name: Publish Docker image
-    runs-on: ubuntu-latest
-    outputs:
-      image_tag: ${{steps.image-tag.outputs.image_tag}}
-    steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHubAction
-          role-session-name: GitHubActions
-          aws-region: us-east-1
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-      
-
+jobs:    
   format:
     name: Terragrunt format
     runs-on: ubuntu-latest
