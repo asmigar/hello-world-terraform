@@ -11,9 +11,6 @@ provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
 
-
-
-
 resource "docker_registry_image" "hello_world" {
   count = var.release_version != "" ? 1 : 0
   name  = "${var.repository}:${var.release_version}"

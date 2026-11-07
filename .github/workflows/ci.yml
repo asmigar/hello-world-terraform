@@ -121,8 +121,6 @@ jobs:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
       - name: Apply
         uses: gruntwork-io/terragrunt-action@v3
         with:
