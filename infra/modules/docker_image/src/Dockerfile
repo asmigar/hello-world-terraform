@@ -2,6 +2,6 @@
  FROM node:26-alpine
  WORKDIR /app
  COPY . .
- RUN npm install
+ # RUN npm install
  EXPOSE 3000
  CMD ["node", "index.js"]
