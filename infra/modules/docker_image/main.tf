@@ -30,4 +30,7 @@ resource "docker_registry_image" "hello_world" {
       auth_config["password"]
     ]
   }
+  triggers = {
+    dir_sha1 = sha1(join("", [for f in fileset(path.module, "src/**") : filesha1(f)]))
+  }
 }
