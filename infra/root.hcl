@@ -1,7 +1,7 @@
 locals {
-  current_dir         = replace(path_relative_to_include(), "/", "-")
+  env                 = path_relative_to_include()
   org                 = "asmigar"
-  state_bucket_prefix = "${local.org}-${local.current_dir}"
+  state_bucket_prefix = "${local.org}-${local.env}-hello-world"
 }
 
 inputs = {

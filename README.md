@@ -32,7 +32,7 @@ $ aws iam list-users --profile asmigar
 
 1. Apply the terraform project.
 ```bash
-cd infra/accounts/dev/hello-world; terragrunt init --backend-bootstrap; terragrunt apply -var="release_version=<release_version>"
+cd infra/dev; terragrunt init --backend-bootstrap; terragrunt apply -var="release_version=<release_version>"
 ```
 This will output
 * URL to access the web server.
@@ -41,7 +41,7 @@ This will output
 1. Make desired code changes to `src` directory.
 2. Run terragrunt with updated release version
 ```bash
-cd infra/accounts/dev/hello-world; terragrunt apply -var="release_version=<release_version>"
+cd infra/dev; terragrunt apply -var="release_version=<release_version>"
 ```
 
 ## TODO
