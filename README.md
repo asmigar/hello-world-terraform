@@ -46,4 +46,3 @@ cd infra/accounts/dev/hello-world; terragrunt apply -var="release_version=<relea
 
 ## TODO
 - [ ] Use opentf client side [state encryption](https://www.gruntwork.io/blog/make-the-switch-to-opentofu)
-- [ ] Fix docker build setup through opentofu. Check into [provider config block](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs)
