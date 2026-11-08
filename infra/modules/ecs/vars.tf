@@ -28,5 +28,5 @@ variable "public_subnet_cidr_blocks" {
 variable "release_version" {
   type        = string
   description = "Image version which needs to be deployed"
-  default     = ""
+  default     = "v1.0.0"
 }
