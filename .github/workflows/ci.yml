@@ -25,7 +25,7 @@ jobs:
       - name: Format
         uses: gruntwork-io/terragrunt-action@v3
         with:
-          tg_dir: infra/accounts
+          tg_dir: infra
           tg_command: hcl fmt --check --diff
 
   format:
@@ -59,7 +59,7 @@ jobs:
       - name: Validate
         uses: gruntwork-io/terragrunt-action@v3
         with:
-          tg_dir: infra/accounts
+          tg_dir: infra
           tg_command: hcl validate --inputs
 
   validate:
@@ -76,7 +76,7 @@ jobs:
       - name: Validate
         uses: gruntwork-io/terragrunt-action@v3
         with:
-          tg_dir: infra/accounts/dev/hello-world
+          tg_dir: infra/dev
           tg_command: validate
 
   plan:
@@ -106,7 +106,7 @@ jobs:
       - name: Plan
         uses: gruntwork-io/terragrunt-action@v3
         with:
-          tg_dir: infra/accounts/dev/hello-world
+          tg_dir: infra/dev
           tg_command: plan -var release_version=${{ steps.release_version.outputs.release_version }}
 
   apply:
@@ -124,5 +124,5 @@ jobs:
       - name: Apply
         uses: gruntwork-io/terragrunt-action@v3
         with:
-          tg_dir: infra/accounts/dev/hello-world
+          tg_dir: infra/dev
           tg_command: apply -var release_version=${{ needs.plan.outputs.release_version }} -auto-approve
