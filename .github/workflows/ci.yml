@@ -116,4 +116,4 @@ jobs:
         uses: gruntwork-io/terragrunt-action@v3
         with:
           tg_dir: infra/dev
-          tg_command: apply -auto-approve
+          tg_command: apply
