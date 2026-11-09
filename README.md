@@ -46,4 +46,3 @@ cd infra/dev; terragrunt apply -var="release_version=<release_version>"
 
 ## TODO
 - [ ] Use opentf client side [state encryption](https://www.gruntwork.io/blog/make-the-switch-to-opentofu)
-- [ ] Run docker build only if `src/` changes. More info [here](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs/resources/image#build)
