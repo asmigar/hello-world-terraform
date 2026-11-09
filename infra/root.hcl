@@ -62,7 +62,11 @@ terraform {
   required_providers {
     aws = {
       version = "= 6.38.0"
-      source  = "hashicorp/aws"
+      source  = "registry.opentofu.org/hashicorp/aws"
+    }
+    docker = {
+      version = "= 3.9.0"
+      source  = "registry.opentofu.org/kreuzwerker/docker"
     }
   }
 }
