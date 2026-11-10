@@ -15,6 +15,10 @@ module "docker_image" {
   release_version = var.release_version
 }
 
+resource "terraform_data" "docker_image" {
+  input = module.docker_image.image_id
+}
+
 resource "aws_ecr_repository" "hello_world" {
   name                 = "hello-world"
   image_tag_mutability = "MUTABLE"
@@ -122,7 +126,6 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_ecs_task_definition" "hello" {
-  count              = var.release_version != "" ? 1 : 0
   family             = "hello-world"
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = jsonencode([
@@ -148,10 +151,13 @@ resource "aws_ecs_task_definition" "hello" {
   network_mode = "awsvpc"
   cpu          = "256"
   memory       = "100"
+
+  lifecycle {
+    replace_triggered_by = [terraform_data.docker_image.image_id]
+  }
 }
 
 resource "aws_ecs_service" "hello" {
-  count                = var.release_version != "" ? 1 : 0
   name                 = "hello-world"
   cluster              = aws_ecs_cluster.cluster.id
   task_definition      = aws_ecs_task_definition.hello[0].arn
