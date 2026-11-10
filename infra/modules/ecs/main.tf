@@ -160,13 +160,13 @@ resource "aws_ecs_task_definition" "hello" {
 resource "aws_ecs_service" "hello" {
   name                 = "hello-world"
   cluster              = aws_ecs_cluster.cluster.id
-  task_definition      = aws_ecs_task_definition.hello[0].arn
+  task_definition      = aws_ecs_task_definition.hello.arn
   desired_count        = 2
   force_new_deployment = true
 
   load_balancer {
     target_group_arn = aws_lb_target_group.hello_lb_tg.arn
-    container_name   = jsondecode(aws_ecs_task_definition.hello[0].container_definitions)[0].name
+    container_name   = jsondecode(aws_ecs_task_definition.hello.container_definitions)[0].name
     container_port   = 3000
   }
 
