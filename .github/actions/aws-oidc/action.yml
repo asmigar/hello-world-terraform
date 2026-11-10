@@ -1,0 +1,11 @@
+name: 'AWS OIDC Setup'
+description: 'login to AWS using OIDC'
+runs:
+  using: "composite"
+  steps:
+    - name: configure aws creds
+      uses: aws-actions/configure-aws-credentials@v6
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction

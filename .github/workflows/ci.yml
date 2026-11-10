@@ -16,12 +16,8 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6
-        with:
-          audience: sts.amazonaws.com
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
+      - uses: ./.github/actions/aws-oidc
+        if: ${{ !env.ACT }}
       - name: Format
         uses: gruntwork-io/terragrunt-action@v3
         with:
@@ -33,12 +29,8 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6
-        with:
-          audience: sts.amazonaws.com
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
+      - uses: ./.github/actions/aws-oidc
+        if: ${{ !env.ACT }}
       - name: Format
         uses: gruntwork-io/terragrunt-action@v3
         with:
@@ -50,12 +42,8 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6
-        with:
-          audience: sts.amazonaws.com
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
+      - uses: ./.github/actions/aws-oidc
+        if: ${{ !env.ACT }}
       - name: Validate
         uses: gruntwork-io/terragrunt-action@v3
         with:
@@ -67,12 +55,8 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6
-        with:
-          audience: sts.amazonaws.com
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
+      - uses: ./.github/actions/aws-oidc
+        if: ${{ !env.ACT }}
       - name: Validate
         uses: gruntwork-io/terragrunt-action@v3
         with:
@@ -88,12 +72,8 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6
-        with:
-          audience: sts.amazonaws.com
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
+      - uses: ./.github/actions/aws-oidc
+        if: ${{ !env.ACT }}
       - name: Plan
         uses: gruntwork-io/terragrunt-action@v3
         with:
@@ -106,12 +86,8 @@ jobs:
     environment: dev
     steps:
       - uses: actions/checkout@v7
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6
-        with:
-          audience: sts.amazonaws.com
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
+      - uses: ./.github/actions/aws-oidc
+        if: ${{ !env.ACT }}
       - name: Apply
         uses: gruntwork-io/terragrunt-action@v3
         with:
