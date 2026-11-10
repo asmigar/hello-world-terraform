@@ -12,7 +12,7 @@ provider "docker" {
 }
 
 resource "docker_registry_image" "hello_world" {
-  name  = "${var.repository}:${var.release_version}"
+  name = "${var.repository}:${var.release_version}"
   build {
     context  = "${path.module}/src"
     platform = "linux/arm64"
