@@ -153,7 +153,7 @@ resource "aws_ecs_task_definition" "hello" {
   memory       = "100"
 
   lifecycle {
-    replace_triggered_by = [terraform_data.docker_image.image_id]
+    replace_triggered_by = [terraform_data.docker_image]
   }
 }
 
