@@ -8,5 +8,4 @@ runs:
       with:
         audience: sts.amazonaws.com
         aws-region: us-east-1
-        role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GitHubAction
-          
+        role-to-assume: arn:aws:iam::${{env.AWS_ACCOUNT_ID}}:role/GitHubAction
