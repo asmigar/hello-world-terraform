@@ -41,6 +41,8 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
+      - uses: ./.github/actions/aws-oidc
+        if: ${{ !env.ACT }}
       - name: Validate
         uses: gruntwork-io/terragrunt-action@v3
         with:
