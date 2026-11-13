@@ -45,6 +45,5 @@ cd infra/dev; terragrunt apply -var="release_version=<release_version>"
 ```
 
 ## TODO
-- [ ] Convert the ECR repo to be IMMUTABLE. More details [here](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository#image_tag_mutability-1).
 - [ ] Use github cache action for provider pluin caches. More details [here](https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching)
 - [ ] Use opentf client side [state encryption](https://www.gruntwork.io/blog/make-the-switch-to-opentofu)
