@@ -46,4 +46,4 @@ cd infra/dev; terragrunt apply -var="release_version=<release_version>"
 
 ## TODO
 - [ ] Use github cache action for provider pluin caches. More details [here](https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching)
-- [ ] Use opentf client side [state encryption](https://www.gruntwork.io/blog/make-the-switch-to-opentofu)
+- [ ] Use opentf [state encryption](https://www.gruntwork.io/blog/make-the-switch-to-opentofu). Works without terragrunt auto generated terraform block tested on https://github.com/asmigar/create_docker_swarm. 
